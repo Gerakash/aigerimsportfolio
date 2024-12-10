@@ -64,6 +64,18 @@ const Header = () => {
           alignItems="center"
         >
           <nav>
+          <a>
+            <FontAwesomeIcon icon="faGithub" size="2x"/>
+          </a>
+          <a>
+            <FontAwesomeIcon icon="faLinkedin" size="2x"/>
+          </a>
+          <a>
+            <FontAwesomeIcon icon="faMedium" size="2x"/>
+          </a>
+          <a>
+            <FontAwesomeIcon icon="faStackOverflow" size="2x"/>
+          </a>
             {/* Add social media links based on the `socials` data */}
           </nav>
           <nav>
