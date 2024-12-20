@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -7,7 +7,7 @@ import {
   faMedium,
   faStackOverflow,
 } from "@fortawesome/free-brands-svg-icons";
-import { Box, HStack } from "@chakra-ui/react";
+import { Box, HStack, useMediaQuery } from "@chakra-ui/react";
 
 const socials = [
   {
@@ -33,6 +33,24 @@ const socials = [
 ];
 
 const Header = () => {
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollY = useRef(0);
+
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY;
+    if (currentScrollY > lastScrollY.current) {
+      setIsVisible(false); // Hide header on scroll down
+    } else {
+      setIsVisible(true); // Show header on scroll up
+    }
+    lastScrollY.current = currentScrollY;
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const handleClick = (anchor) => () => {
     const id = `${anchor}-section`;
     const element = document.getElementById(id);
@@ -50,37 +68,45 @@ const Header = () => {
       top={0}
       left={0}
       right={0}
-      translateY={0}
-      transitionProperty="transform"
-      transitionDuration=".3s"
-      transitionTimingFunction="ease-in-out"
+      transform={isVisible ? "translateY(0)" : "translateY(-200px)"}
+      transition="transform 0.3s ease-in-out"
       backgroundColor="#18181b"
+      zIndex={10}
     >
       <Box color="white" maxWidth="1280px" margin="0 auto">
         <HStack
           px={16}
-          py={4}
+          py={6}
           justifyContent="space-between"
           alignItems="center"
+          wrap="wrap"
         >
+          {/* Social Media Links */}
           <nav>
-          <a>
-            <FontAwesomeIcon icon="faGithub" size="2x"/>
-          </a>
-          <a>
-            <FontAwesomeIcon icon="faLinkedin" size="2x"/>
-          </a>
-          <a>
-            <FontAwesomeIcon icon="faMedium" size="2x"/>
-          </a>
-          <a>
-            <FontAwesomeIcon icon="faStackOverflow" size="2x"/>
-          </a>
-            {/* Add social media links based on the `socials` data */}
+            <HStack spacing={4}>
+              {socials.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Link to ${social.url}`}
+                >
+                  <FontAwesomeIcon icon={social.icon} size="2x" />
+                </a>
+              ))}
+            </HStack>
           </nav>
+
+          {/* Navigation Links */}
           <nav>
             <HStack spacing={8}>
-              {/* Add links to Projects and Contact me section */}
+              <a href="#projects-section" onClick={handleClick("projects")}>
+                Projects
+              </a>
+              <a href="#contact-section" onClick={handleClick("contact")}>
+                Contact Me
+              </a>
             </HStack>
           </nav>
         </HStack>
@@ -88,4 +114,6 @@ const Header = () => {
     </Box>
   );
 };
+
 export default Header;
+
