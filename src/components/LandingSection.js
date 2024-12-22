@@ -17,19 +17,19 @@ const LandingSection = () => (
     <VStack spacing={4}>
       {/* Avatar Component */}
       <Avatar
-        size="xl"
+        size="3xl"
         src="https://i.pravatar.cc/150?img=7"
         alt="Pete's Avatar"
       />
       {/* Greeting Heading */}
-      <Heading as="h1" size="lg" color="white">
+      <Heading as="h4" size="md" color="white">
         {greeting}
       </Heading>
       {/* Role Description Headings */}
-      <Heading as="h2" size="md" color="gray.300">
+      <Heading as="h1" size="3xl" color="gray.300">
         {bio1}
       </Heading>
-      <Heading as="h2" size="md" color="gray.300">
+      <Heading as="h1" size="3xl" color="gray.300">
         {bio2}
       </Heading>
     </VStack>
